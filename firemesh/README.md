@@ -9,7 +9,7 @@ Firemesh is a service that allows you to integrate Triggermesh components with F
 
 After starting your Firefly development environment, you can add Firemesh by adding the following to the generated docker-compose file.
 
-```bash
+```yaml
     firemesh:
         image: gcr.io/triggermesh/firemesh
         ports:
@@ -29,6 +29,7 @@ For instance, to add a Webhook or Kafka Source, you can add the following to you
         platform: linux/amd64
         image: gcr.io/triggermesh/webhooksource-adapter
         environment:
+          # If we do not specify a static topic for firemesh, the event type we specify here will be used as the Topic name in Firefly.
           WEBHOOK_EVENT_TYPE: webhook.event
           WEBHOOK_EVENT_SOURCE: webhook
           K_SINK: "http://firemesh:8080"
@@ -47,9 +48,8 @@ For instance, to add a Webhook or Kafka Source, you can add the following to you
         PASSWORD:
         # Kafka Connection Settings
         BOOTSTRAP_SERVERS:
-        # Dont Touch me
-        SECURITY_MECHANISMS: PLAIN
         GROUP_ID: ocikafka-group
+        SECURITY_MECHANISMS: PLAIN
         SKIP_VERIFY: "true"
         SASL_ENABLE: "true"
         TLS_ENABLE: "true"
